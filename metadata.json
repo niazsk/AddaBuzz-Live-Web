@@ -1,0 +1,6 @@
+{
+  "name": "AddaBuzz Live",
+  "description": "AddaBuzz Live - Connect, Stream, Chat, Enjoy. A modern, minimalist social live-streaming platform featuring multi-guest rooms, audio & video streams, real-time chat, and creator community.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
