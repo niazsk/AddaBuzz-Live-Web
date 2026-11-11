@@ -18,6 +18,7 @@ interface HeaderProps {
   onOpenGoLive: () => void;
   onOpenWallet: () => void;
   onOpenProfile: (profile: StreamerProfile) => void;
+  onOpenAdmin: () => void;
 
   currentUser: StreamerProfile;
   diamonds: number;
@@ -29,10 +30,12 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenGoLive,
   onOpenWallet,
   onOpenProfile,
+  onOpenAdmin,
   currentUser,
   diamonds,
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -199,8 +202,9 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Current User Profile Pill */}
+        <div className="relative">
         <button
-          onClick={() => onOpenProfile(currentUser)}
+          onClick={() => setShowProfileMenu((v) => !v)}
           className="flex items-center gap-2 p-1 pl-1.5 sm:pr-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-slate-800 transition-all cursor-pointer group"
         >
           <div className="relative">
@@ -220,6 +224,23 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
         </button>
+        {showProfileMenu && (
+          <div className="absolute right-0 top-full mt-2 w-48 rounded-xl bg-[#0c091b] border border-purple-800/40 shadow-2xl overflow-hidden z-50">
+            <button
+              onClick={() => { setShowProfileMenu(false); onOpenProfile(currentUser); }}
+              className="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-800 cursor-pointer"
+            >
+              View Profile
+            </button>
+            <button
+              onClick={() => { setShowProfileMenu(false); onOpenAdmin(); }}
+              className="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-800 cursor-pointer"
+            >
+              Admin Panel
+            </button>
+          </div>
+        )}
+        </div>
       </div>
     </header>
   );

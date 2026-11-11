@@ -12,6 +12,7 @@ import { GoLiveModal } from './components/modals/GoLiveModal';
 import { ProfileModal } from './components/modals/ProfileModal';
 import { WalletModal } from './components/modals/WalletModal';
 import { LoginPage } from './components/LoginPage';
+import { AdminPanel } from './components/AdminPanel';
 
 import { CATEGORIES, MOCK_ROOMS, MOCK_STREAMERS } from './data/mockData';
 import { CategoryId, LiveRoom, StreamerProfile } from './types';
@@ -55,6 +56,7 @@ export default function App() {
   const [isWalletOpen, setIsWalletOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   // Toggle Follow / Unfollow
   const handleToggleFollow = (streamerId: string) => {
@@ -160,6 +162,7 @@ export default function App() {
         onOpenGoLive={() => handleOpenGoLiveWithMode('audio')}
         onOpenWallet={() => setIsWalletOpen(true)}
         onOpenProfile={(profile) => setActiveProfile(profile)}
+        onOpenAdmin={() => setIsAdminOpen(true)}
         currentUser={currentUser}
         diamonds={diamonds}
       />
@@ -331,6 +334,7 @@ export default function App() {
         />
       )}
 
+      {isAdminOpen && <AdminPanel onClose={() => setIsAdminOpen(false)} />}
     </div>
   );
 }
