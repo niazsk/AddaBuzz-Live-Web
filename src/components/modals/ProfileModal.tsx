@@ -173,6 +173,25 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
             </div>
           </div>
 
+          {/* Wallet (Coins & Diamonds) */}
+          <div className="flex items-center justify-center gap-6 mb-5 p-3 rounded-2xl bg-[#120e26] border border-purple-900/30">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">💎</span>
+              <div>
+                <div className="text-sm font-extrabold text-cyan-300">{(profile.diamonds ?? 0).toLocaleString()}</div>
+                <div className="text-[9px] uppercase font-bold text-slate-400">Diamonds</div>
+              </div>
+            </div>
+            <div className="w-px h-8 bg-purple-900/40" />
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🪙</span>
+              <div>
+                <div className="text-sm font-extrabold text-amber-300">{(profile.coins ?? 0).toLocaleString()}</div>
+                <div className="text-[9px] uppercase font-bold text-slate-400">Coins</div>
+              </div>
+            </div>
+          </div>
+
           {/* Achievements / Badges */}
           <div className="space-y-2">
             <span className="text-xs font-bold text-white uppercase tracking-wider">

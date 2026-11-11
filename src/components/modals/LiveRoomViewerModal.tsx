@@ -29,8 +29,8 @@ interface LiveRoomViewerModalProps {
   onClose: () => void;
   onOpenProfile: (profile: StreamerProfile) => void;
   currentUser: StreamerProfile;
-  diamonds: number;
-  onDeductDiamonds: (amount: number) => boolean;
+  coins: number;
+  onDeductCoins: (amount: number) => boolean;
 }
 
 interface FloatingReaction {
@@ -44,8 +44,8 @@ export const LiveRoomViewerModal: React.FC<LiveRoomViewerModalProps> = ({
   onClose,
   onOpenProfile,
   currentUser,
-  diamonds,
-  onDeductDiamonds,
+  coins,
+  onDeductCoins,
 }) => {
   const [messages, setMessages] = useState<LiveChatMessage[]>(INITIAL_CHAT_MESSAGES);
   const [inputText, setInputText] = useState('');
@@ -136,12 +136,12 @@ export const LiveRoomViewerModal: React.FC<LiveRoomViewerModalProps> = ({
 
   // Send Virtual Gift
   const handleSendGift = (gift: VirtualGift) => {
-    if (diamonds < gift.costInDiamonds) {
-      alert(`Insufficient Diamonds! You need ${gift.costInDiamonds} diamonds. Claim free coins or top up in your wallet.`);
+    if (coins < gift.costInCoins) {
+      alert(`Insufficient Coins! You need ${gift.costInCoins} coins.`);
       return;
     }
 
-    const success = onDeductDiamonds(gift.costInDiamonds);
+    const success = onDeductCoins(gift.costInCoins);
     if (!success) return;
 
     // Trigger on-screen banner
@@ -164,7 +164,7 @@ export const LiveRoomViewerModal: React.FC<LiveRoomViewerModalProps> = ({
         name: gift.name,
         icon: gift.icon,
         amount: 1,
-        diamondValue: gift.costInDiamonds,
+        diamondValue: gift.costInCoins,
       },
     };
     setMessages((prev) => [...prev, giftMsg]);
@@ -506,7 +506,7 @@ export const LiveRoomViewerModal: React.FC<LiveRoomViewerModalProps> = ({
                 Live Chat
               </span>
               <span className="text-[11px] text-cyan-300 font-semibold">
-                💎 {diamonds.toLocaleString()}
+                🪙 {coins.toLocaleString()}
               </span>
             </div>
 
@@ -589,7 +589,7 @@ export const LiveRoomViewerModal: React.FC<LiveRoomViewerModalProps> = ({
                         {gift.name}
                       </span>
                       <span className="text-[9px] font-semibold text-cyan-300 flex items-center gap-0.5">
-                        💎 {gift.costInDiamonds}
+                        💎 {gift.costInCoins}
                       </span>
                     </button>
                   ))}

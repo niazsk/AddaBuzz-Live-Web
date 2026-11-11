@@ -24,8 +24,6 @@ interface SidebarProps {
   allRooms: LiveRoom[];
   onToggleDashboard?: () => void;
   isDashboardOpen?: boolean;
-  onOpenSupabase?: () => void;
-  isSupabaseConnected?: boolean;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -37,8 +35,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   allRooms,
   onToggleDashboard,
   isDashboardOpen,
-  onOpenSupabase,
-  isSupabaseConnected,
 }) => {
   const navItems = [
     { id: 'all' as CategoryId, label: 'All Live', icon: Flame, badge: 'Hot' },
@@ -177,36 +173,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* Creator Highlight / Free-First Banner */}
-        <div 
-          onClick={onOpenSupabase}
-          className="p-3.5 rounded-2xl bg-gradient-to-br from-purple-950/40 via-violet-900/20 to-slate-900/60 border border-purple-800/30 hover:border-emerald-500/50 transition-all cursor-pointer group"
-        >
-          <div className="flex items-center justify-between text-xs font-bold text-purple-300">
-            <span className="flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Free-First Platform</span>
-            </span>
-            <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-              isSupabaseConnected
-                ? 'bg-emerald-950 text-emerald-300 border border-emerald-700/40'
-                : 'bg-amber-950 text-amber-300 border border-amber-700/40'
-            }`}>
-              {isSupabaseConnected ? 'Connected ✓' : 'Setup Supabase'}
-            </span>
-          </div>
-          <p className="text-[11px] text-slate-300 mt-1 leading-snug">
-            Supabase + LiveKit open-source powered social streaming. Free for all creators & viewers.
-          </p>
-          <div className="mt-2.5 flex items-center justify-between text-[10px] font-medium text-slate-300">
-            <span className="flex items-center gap-1 text-emerald-400">
-              <ShieldCheck className="w-3 h-3" /> 8-Guest Voice
-            </span>
-            <span className="text-cyan-400 font-semibold group-hover:underline">
-              Configure Database →
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* Footer System Status */}

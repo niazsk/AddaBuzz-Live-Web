@@ -11,7 +11,6 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { StreamerProfile } from '../../types';
-import { Database } from 'lucide-react';
 
 interface HeaderProps {
   searchQuery: string;
@@ -19,8 +18,7 @@ interface HeaderProps {
   onOpenGoLive: () => void;
   onOpenWallet: () => void;
   onOpenProfile: (profile: StreamerProfile) => void;
-  onOpenSupabase: () => void;
-  isSupabaseConnected: boolean;
+
   currentUser: StreamerProfile;
   diamonds: number;
 }
@@ -31,8 +29,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenGoLive,
   onOpenWallet,
   onOpenProfile,
-  onOpenSupabase,
-  isSupabaseConnected,
   currentUser,
   diamonds,
 }) => {
@@ -127,20 +123,7 @@ export const Header: React.FC<HeaderProps> = ({
           <span className="hidden xs:inline">Go Live</span>
         </button>
 
-        {/* Supabase Integration Button */}
-        <button
-          onClick={onOpenSupabase}
-          className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full border text-xs font-bold transition-all cursor-pointer ${
-            isSupabaseConnected
-              ? 'bg-emerald-950/60 hover:bg-emerald-900/60 border-emerald-500/50 text-emerald-300 shadow-sm shadow-emerald-500/20'
-              : 'bg-slate-900/90 hover:bg-slate-800/90 border-slate-700 text-slate-300 hover:text-white'
-          }`}
-          title="Supabase Database & Auth"
-        >
-          <Database className={`w-3.5 h-3.5 ${isSupabaseConnected ? 'text-emerald-400' : 'text-slate-400'}`} />
-          <span className="hidden sm:inline">Supabase</span>
-          <span className={`w-2 h-2 rounded-full ${isSupabaseConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-        </button>
+        {/* Supabase Integration Button (hidden) */}
 
         {/* Diamond Wallet Badge */}
         <button

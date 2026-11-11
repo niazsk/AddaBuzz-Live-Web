@@ -185,14 +185,14 @@ CREATE TABLE IF NOT EXISTS public.gift_catalog (
   name VARCHAR(100) NOT NULL,
   bangla_name VARCHAR(100),
   icon VARCHAR(10) NOT NULL,
-  cost_in_diamonds INT NOT NULL CHECK (cost_in_diamonds > 0),
+  cost_in_coins INT NOT NULL CHECK (cost_in_coins > 0),
   rarity gift_rarity DEFAULT 'common',
   animation_type VARCHAR(30) DEFAULT 'pop',
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-INSERT INTO public.gift_catalog (id, name, bangla_name, icon, cost_in_diamonds, rarity, animation_type)
+INSERT INTO public.gift_catalog (id, name, bangla_name, icon, cost_in_coins, rarity, animation_type)
 VALUES
   ('gift_rose', 'Red Rose', 'লাল গোলাপ', '🌹', 5, 'common', 'pop'),
   ('gift_chai', 'Adda Special Cha', 'আড্ডা স্পেশাল চা', '☕', 10, 'common', 'pop'),

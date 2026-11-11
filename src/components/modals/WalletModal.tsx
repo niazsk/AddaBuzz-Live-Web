@@ -141,7 +141,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
                   {g.name}
                 </span>
                 <span className="text-[9px] text-cyan-300 font-semibold">
-                  💎 {g.costInDiamonds}
+                  💎 {g.costInCoins}
                 </span>
               </div>
             ))}

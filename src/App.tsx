@@ -11,8 +11,7 @@ import { LiveRoomViewerModal } from './components/modals/LiveRoomViewerModal';
 import { GoLiveModal } from './components/modals/GoLiveModal';
 import { ProfileModal } from './components/modals/ProfileModal';
 import { WalletModal } from './components/modals/WalletModal';
-import { SupabaseConnectModal } from './components/modals/SupabaseConnectModal';
-import { isSupabaseConfigured, getSupabaseClient } from './lib/supabase';
+import { LoginPage } from './components/LoginPage';
 
 import { CATEGORIES, MOCK_ROOMS, MOCK_STREAMERS } from './data/mockData';
 import { CategoryId, LiveRoom, StreamerProfile } from './types';
@@ -39,7 +38,7 @@ export default function App() {
   });
 
   const [diamonds, setDiamonds] = useState(1450);
-  const [coins, setCoins] = useState(380);
+  const [coins, setCoins] = useState(2000);
   const [dailyClaimed, setDailyClaimed] = useState(false);
 
   // Discovery & Navigation State
@@ -55,48 +54,7 @@ export default function App() {
   const [goLiveInitialMode, setGoLiveInitialMode] = useState<'video' | 'audio'>('audio');
   const [isWalletOpen, setIsWalletOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(true);
-  const [isSupabaseOpen, setIsSupabaseOpen] = useState(false);
-  const [isSupabaseConnected, setIsSupabaseConnected] = useState(isSupabaseConfigured());
-
-  // Listen to Supabase auth events
-  React.useEffect(() => {
-    setIsSupabaseConnected(isSupabaseConfigured());
-    const client = getSupabaseClient();
-    if (!client) return;
-
-    // Check existing session
-    client.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setIsSupabaseConnected(true);
-        const meta = session.user.user_metadata || {};
-        setCurrentUser((prev) => ({
-          ...prev,
-          id: session.user.id,
-          name: meta.name || session.user.email?.split('@')[0] || prev.name,
-          username: meta.username || session.user.email?.split('@')[0] || prev.username,
-        }));
-      }
-    });
-
-    const { data: { subscription } } = client.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        setIsSupabaseConnected(true);
-        const meta = session.user.user_metadata || {};
-        setCurrentUser((prev) => ({
-          ...prev,
-          id: session.user.id,
-          name: meta.name || session.user.email?.split('@')[0] || prev.name,
-          username: meta.username || session.user.email?.split('@')[0] || prev.username,
-        }));
-      } else {
-        setIsSupabaseConnected(isSupabaseConfigured());
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Toggle Follow / Unfollow
   const handleToggleFollow = (streamerId: string) => {
@@ -139,6 +97,12 @@ export default function App() {
   const handleDeductDiamonds = (amount: number): boolean => {
     if (diamonds < amount) return false;
     setDiamonds((prev) => prev - amount);
+    return true;
+  };
+
+  const handleDeductCoins = (amount: number): boolean => {
+    if (coins < amount) return false;
+    setCoins((prev) => prev - amount);
     return true;
   };
 
@@ -190,6 +154,10 @@ export default function App() {
     return streamers.filter((s) => s.isFollowed);
   }, [streamers]);
 
+  if (!isLoggedIn) {
+    return <LoginPage onAuthenticated={() => setIsLoggedIn(true)} />;
+  }
+
   return (
     <div className="min-h-screen bg-[#07070D] text-slate-100 flex flex-col font-['Plus_Jakarta_Sans',sans-serif] selection:bg-purple-600 selection:text-white">
       {/* Universal Top Header */}
@@ -199,8 +167,6 @@ export default function App() {
         onOpenGoLive={() => handleOpenGoLiveWithMode('audio')}
         onOpenWallet={() => setIsWalletOpen(true)}
         onOpenProfile={(profile) => setActiveProfile(profile)}
-        onOpenSupabase={() => setIsSupabaseOpen(true)}
-        isSupabaseConnected={isSupabaseConnected}
         currentUser={currentUser}
         diamonds={diamonds}
       />
@@ -217,8 +183,6 @@ export default function App() {
           allRooms={rooms}
           onToggleDashboard={() => setIsDashboardOpen(!isDashboardOpen)}
           isDashboardOpen={isDashboardOpen}
-          onOpenSupabase={() => setIsSupabaseOpen(true)}
-          isSupabaseConnected={isSupabaseConnected}
         />
 
         {/* Central Content Canvas */}
@@ -358,8 +322,8 @@ export default function App() {
           onClose={() => setActiveRoom(null)}
           onOpenProfile={(profile) => setActiveProfile(profile)}
           currentUser={currentUser}
-          diamonds={diamonds}
-          onDeductDiamonds={handleDeductDiamonds}
+          coins={coins}
+          onDeductCoins={handleDeductCoins}
         />
       )}
 
@@ -395,15 +359,6 @@ export default function App() {
         />
       )}
 
-      {/* Supabase Connection & Authentication Manager */}
-      <SupabaseConnectModal
-        isOpen={isSupabaseOpen}
-        onClose={() => setIsSupabaseOpen(false)}
-        onUserAuthenticated={(profile) => {
-          setCurrentUser(profile);
-          setIsSupabaseConnected(true);
-        }}
-      />
     </div>
   );
 }

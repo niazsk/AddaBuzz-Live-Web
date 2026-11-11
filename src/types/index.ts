@@ -50,6 +50,8 @@ export interface StreamerProfile {
   isLive: boolean;
   currentRoomId?: string;
   totalGiftsReceived: number;
+  diamonds?: number;
+  coins?: number;
   isFollowed?: boolean;
   tags: string[];
 }
@@ -78,7 +80,7 @@ export interface VirtualGift {
   name: string;
   banglaName?: string;
   icon: string;
-  costInDiamonds: number;
+  costInCoins: number;
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
   animationType: 'pop' | 'sparkle' | 'float' | 'blast';
 }
