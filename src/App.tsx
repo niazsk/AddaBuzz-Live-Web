@@ -93,13 +93,6 @@ export default function App() {
     setDailyClaimed(true);
   };
 
-  // Deduct diamonds when sending gifts
-  const handleDeductDiamonds = (amount: number): boolean => {
-    if (diamonds < amount) return false;
-    setDiamonds((prev) => prev - amount);
-    return true;
-  };
-
   const handleDeductCoins = (amount: number): boolean => {
     if (coins < amount) return false;
     setCoins((prev) => prev - amount);
@@ -282,27 +275,6 @@ export default function App() {
             onOpenRoom={(room) => setActiveRoom(room)}
           />
 
-          {/* Free-First Platform Architecture Footer Banner */}
-          <div className="mt-12 p-6 rounded-3xl bg-[#0d091e]/80 border border-purple-900/30 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="space-y-1 text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start gap-2 text-white font-extrabold text-sm sm:text-base">
-                <span>AddaBuzz Live</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800/40">
-                  Free-First Open Source
-                </span>
-              </div>
-              <p className="text-xs text-slate-300 max-w-xl">
-                Built with React, Vite, Tailwind CSS, Supabase Free Tier, and LiveKit WebRTC engine. Complete 8-guest voice room and HD video broadcast architecture without mandatory paid services.
-              </p>
-            </div>
-
-            <button
-              onClick={() => handleOpenGoLiveWithMode('audio')}
-              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-violet-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 text-white font-bold text-xs shadow-lg shadow-purple-900/40 transition-all cursor-pointer whitespace-nowrap"
-            >
-              Start Free Audio Adda
-            </button>
-          </div>
         </main>
       </div>
 
